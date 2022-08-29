@@ -30,8 +30,11 @@ public class WebAppController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter out = resp.getWriter();
-		resp.setStatus(200);
-		serv.writeTableJson(out);
+		if(serv.writeTableJson(out)) {
+			resp.setStatus(200);
+		}else {
+			resp.setStatus(500);
+		}
 
 	}
 

@@ -24,13 +24,13 @@ public class WebAppRepoImp implements WebAppRepo {
 	}
 
 	@Override
-	public void addRow(Hashtable<String, VariableObject> newRow) {
-		orm.addToTable("movies", newRow);
+	public boolean addRow(Hashtable<String, VariableObject> newRow) {
+		return orm.addToTable("movies", newRow);
 	}
 
 	@Override
-	public void deleteRow(Hashtable<String, VariableObject> toRemove) {
-		orm.removeMatchingRow("movies", toRemove);
+	public boolean deleteRow(Hashtable<String, VariableObject> toRemove) {
+		return orm.removeMatchingRow("movies", toRemove);
 	}
 
 	@Override

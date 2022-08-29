@@ -18,8 +18,14 @@ public class WebAppService {
 		repo = new WebAppRepoImp();
 	}
 
-	public void writeTableJson(PrintWriter out) {
-		out.append(repo.getTable().toJson());
+	public boolean writeTableJson(PrintWriter out) {
+		Table table = repo.getTable();
+		if(table == null) {
+			return false;
+		}
+		String json = table.toJson();
+		out.append(json);
+		return true;
 	}
 
 	public void addRowFromJson(BufferedReader read) {
@@ -80,18 +86,16 @@ public class WebAppService {
 		Matcher m = fieldsFind.matcher(toParse);
 		while(m.find()) {
 			String[] item = m.group().split(":");
-			item[0] = item[0].substring(item[0].indexOf("\""),item[0].lastIndexOf("\""));
+			item[0] = item[0].substring(item[0].indexOf("\"")+1,item[0].lastIndexOf("\""));
 			item[1] = item[1].strip();
 			try {
 				int value = Integer.parseInt(item[1]);
 				out.put(item[0], new VariableObject(value));
 			} catch (NumberFormatException e) {
-				item[1] = item[1].trim().substring(item[1].indexOf("\""),item[1].lastIndexOf("\""));
+				item[1] = item[1].trim().substring(item[1].indexOf("\"")+1,item[1].lastIndexOf("\""));
 				out.put(item[0], new VariableObject(item[1]));
 			}
 		}
 		return out;
-		
 	}
-	
 }
